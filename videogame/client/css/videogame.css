@@ -6,7 +6,6 @@ body
 }
 .main-body {
     background-image: url("../images/backgroundv2.png");
-    /* background-size: cover; */
     background-position: center;
     background-repeat: repeat;
     width: 100%;
