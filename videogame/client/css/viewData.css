@@ -1,0 +1,50 @@
+.table-container
+{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 90%;
+    justify-content: center;
+    /* text-align: center; */
+    margin: auto;
+    overflow: auto;
+}
+
+table
+{
+    border: 5px solid white;
+}
+
+tr:not(:last-of-type) > td
+{
+    border-bottom: 2px solid white;
+}
+
+td:not(:last-of-type)
+{
+    border-right: 2px solid white;
+}
+
+
+br
+{
+    border: 2px solid white;
+}
+
+
+table, tr, th, td
+{
+    font-size: larger;
+    color: aliceblue;
+    text-align: center;
+    
+    padding: 2px 5px;
+    margin: 5px;
+    /* border: 2px solid green; */
+}
+
+th
+{
+    margin: 100px;
+
+    border-bottom: 2px solid white;
+}

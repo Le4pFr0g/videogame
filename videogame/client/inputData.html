@@ -6,7 +6,9 @@
     <title>Input Data</title>
 
     <link rel="stylesheet" href="css/inputData.css">
+    <link rel="stylesheet" href="css/defaultStyles.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="js/inputData.js" async></script>
 
     </head>
@@ -45,8 +47,8 @@
                     </div>
 
                     <div class="form_group">
-                        <label for="number_players" class="form_med">Platform: </label>
-                        <input name="number_players" class="form_control" id="number_players">
+                        <label for="game_platform" class="form_med">Platform: </label>
+                        <input name="game_platform" class="form_control" id="game_platform">
                     </div>
 
                     <div class="form_group">
@@ -59,7 +61,7 @@
                 <!--Buttons-->
                 <div id="button_container">
                     <button onclick="submitData()">Submit</button>
-                    <button>Clear</button>
+                    <button onclick="clearData()">Clear</button>
                 </div>
             </section>
 
