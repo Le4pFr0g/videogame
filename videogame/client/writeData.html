@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+    <title>Input Data</title>
+
+    <link rel="stylesheet" href="/client/css/inputData.css">
+    <link rel="stylesheet" href="/client/css/defaultStyles.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/client/js/writeData.js" async></script>
+    <script src="/client/js/config.js" async></script>
+
+    </head>
+
+    <body>
+        <main>
+            <section class="navbar">
+
+                <div class="header">NICK's VIDEO GAME DATABASE</div>
+                <div class="link-container">
+                    <a class="link" href="/home">Home</a>
+                    <a class="link" href="/write-data">Enter Data</a>
+                    <a class="link" href="/view-data">View Data</a>
+                    <a class="link" href="">Browse Data</a>
+                </div>
+
+            </section>
+            <section class="main-body">
+                <!--What does the page do-->
+
+                <!--Form-->
+                <div id="form">
+                    <div class="form_group">
+                        <label for="game_name" class="form_med">Game Name: </label>
+                        <input name="game_name" class="form_control" id="game_name">
+                    </div>
+
+                    <div class="form_group">
+                        <label for="year_released" class="form_med">Year Released: </label>
+                        <input name="year_released" class="form_control" id="year_released">
+                    </div>
+
+                    <div class="form_group">
+                        <label for="number_players" class="form_med">Single or Multiplayer: </label>
+                        <input name="number_players" class="form_control" id="number_players">
+                    </div>
+
+                    <div class="form_group">
+                        <label for="game_platform" class="form_med">Platform: </label>
+                        <input name="game_platform" class="form_control" id="game_platform">
+                    </div>
+
+                    <div class="form_group">
+                        <label for="rating" class="form_med">Rating: </label>
+                        <input name="rating" class="form_control" id="rating">
+                    </div>
+
+                </div>
+
+                <!--Buttons-->
+                <div id="button_container">
+                    <button onclick="submitData()">Submit</button>
+                    <button onclick="clearData()">Clear</button>
+                </div>
+            </section>
+
+
+
+        </main>
+    </body>
+</html>

@@ -17,9 +17,6 @@ for (var i = 1; i < 5; i++)
     jsonObject.push(newGame);
 }
 
-console.log(jsonObject);
-console.log(jsonObject.length);
-
 main();
 
 
@@ -55,6 +52,5 @@ function loadData()
         htmlString += "</tr>"
     }
 
-    console.log(htmlString)
     $("#dataTable").html(htmlString);
 }
