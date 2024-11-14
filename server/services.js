@@ -74,6 +74,35 @@ var services = function(app)
 
     });
 
+    app.get("/get-records", function(req, res)
+    {
+        if (fs.existsSync(DB_FILE))
+        {
+            fs.readFile(DB_FILE, "utf-8", function(err, data)
+            {
+                if (err)
+                {
+                    res.send(JSON.stringify({msg: err}));
+                }
+                else
+                {
+                    var gameData = JSON.parse(data);
+
+                    res.send(JSON.stringify({msg: "SUCCESS", fileData: gameData}));
+
+
+                }
+            });
+        }
+        else
+        {
+            data = [];
+
+            res.send(JSON.stringify({msg: "SUCCESS", fileData: data}));
+        }
+
+
+    });
 }
 
 module.exports = services;
