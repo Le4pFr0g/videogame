@@ -55,8 +55,8 @@ var services = function(app)
         else
         {
             vGameData.push(gameData);
-            console.log(DB_FILE);
-            console.log(vGameData);
+            //console.log(DB_FILE);
+            //console.log(vGameData);
 
             fs.writeFile(DB_FILE, JSON.stringify(vGameData), function(err)
             {
@@ -89,8 +89,6 @@ var services = function(app)
                     var gameData = JSON.parse(data);
 
                     res.send(JSON.stringify({msg: "SUCCESS", fileData: gameData}));
-
-
                 }
             });
         }
@@ -101,6 +99,48 @@ var services = function(app)
             res.send(JSON.stringify({msg: "SUCCESS", fileData: data}));
         }
 
+    });
+
+    app.delete("/delete-record/:id", function(req, res)
+    {
+        console.log(req.params.id);
+        const id = parseInt(req.params.id, 10);
+        console.log(id);
+                if (fs.existsSync(DB_FILE))
+        {
+            fs.readFile(DB_FILE, "utf-8", function(err, data)
+            {
+                if (err)
+                {
+                    res.send(JSON.stringify({msg: err}));
+                }
+                else
+                {
+                    
+                    var gameData = JSON.parse(data);
+                    console.log("Hopefully the data from the file: " + gameData[0].id);
+                    console.log("Hopefully the data from the button: " + req.params.id);
+                    gameData = gameData.filter(game => game.id !== req.params.id)
+                    console.log(gameData);
+                    
+                    fs.writeFile(DB_FILE, JSON.stringify(gameData), function(err)
+                    {
+                        if (err)
+                        {
+                            res.send(JSON.stringify({msg: err}));
+                        }
+
+                    });
+
+                    res.send(JSON.stringify({msg: "SUCCESS"}));
+
+                }
+            });
+        }
+        else
+        {
+            res.send(JSON.stringify({msg: "File Not Found"}));
+        }
 
     });
 }

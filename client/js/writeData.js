@@ -19,7 +19,6 @@ function submitData()
     var rating = $("#rating").val();
 
     var jsonObject = {gameName: gameName, yearReleased: yearReleased, numberPlayers: numberPlayers, gamePlatform: gamePlatform, rating: rating};
-
     $.ajax({
         url: videogameURL + "/write-record",
         type: "post",
