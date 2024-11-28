@@ -8,9 +8,9 @@ function retrieveData()
     {
         url: videogameURL + "/get-records",
         type: "get",
-        success: function(responce)
+        success: function(response)
         {
-            var data = JSON.parse(responce);
+            var data = JSON.parse(response);
 
             if (data.msg = "SUCCESS")
             {
@@ -82,9 +82,9 @@ function deleteData(dataID)
     {
         url: videogameURL + "/delete-record/" + dataID,
         type: "delete",
-        success: function(responce)
+        success: function(response)
         {
-            var data = JSON.parse(responce);
+            var data = JSON.parse(response);
 
             if (data.msg = "SUCCESS")
             {

@@ -23,9 +23,9 @@ function submitData()
         url: videogameURL + "/write-record",
         type: "post",
         data: jsonObject,
-        success: function(responce)
+        success: function(response)
         {
-            var data = JSON.parse(responce);
+            var data = JSON.parse(response);
             
             if(data.msg = "SUCCESS")
             {
