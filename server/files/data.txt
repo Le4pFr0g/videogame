@@ -1,1 +1,1 @@
-[{"id":"vgame1731874515268","gameName":"adfs","yearReleased":"afds","numberPlayers":"fads","gamePlatform":"fdas","rating":"fdas"}]
+[{"id":"vgame1731874515268","gameName":"adfs","yearReleased":"afds","numberPlayers":"fads","gamePlatform":"fdas","rating":"fdas"},{"id":"vgame1732951392004","gameName":"Valorant","yearReleased":"2020","numberPlayers":"Multiplayer","gamePlatform":"PC","rating":"5"},{"id":"vgame1732954441087","gameName":"DooM","yearReleased":"1993","numberPlayers":"singleplayer","gamePlatform":"PC","rating":"5"}]

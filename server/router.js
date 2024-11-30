@@ -16,12 +16,17 @@ var router = function(app)
 
     app.get("/write-data", function(req, res)
     {
-        res.status(200).sendFile(path.join(__dirname + "/../client/writeData.html"));
+        res.status(200).sendFile(path.join(__dirname + "/../client/write-data.html"));
     });
 
     app.get("/view-data", function(req, res)
     {
-        res.status(200).sendFile(path.join(__dirname + "/../client/viewData.html"));
+        res.status(200).sendFile(path.join(__dirname + "/../client/view-data.html"));
+    });
+
+    app.get("/browse-data", function(req, res)
+    {
+        res.status(200).sendFile(path.join(__dirname + "/../client/browse-data.html"));
     });
 
 

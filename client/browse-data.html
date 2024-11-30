@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+        <title>Browse Games</title>
+
+        <link rel="stylesheet" href="/client/css/browse-data.css">
+        <link rel="stylesheet" href="/client/css/menu-styles.css">
+
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="/client/js/config.js" async></script>
+        <script src="/client/js/browse-data.js" async></script>
+
+    </head>
+
+    <body>
+        <main>
+            <section class="navbar">
+
+                <div class="header">NICK's VIDEO GAME DATABASE</div>
+                <div class="link-container">
+                    <a class="link" href="/home">Home</a>
+                    <a class="link" href="/write-data">Enter Data</a>
+                    <a class="link" href="/view-data">View Data</a>
+                    <a class="link" href="/browse-data">Browse Data</a>
+                </div>
+            </section>
+            
+            <section data-ng-app="browseDataApp" data-ng-controller="browseDataCtrl" class="main-body">
+                <div id="data-box">
+                    <div>
+                      <label for="gameName">Game Name:</label>
+                      <label id="gameName" style="margin-left: 30px; color: blue;">{{obj.gameName}}</label>
+                    </div>
+              
+                   <div>
+                      <label for="yearReleased">Year Released:</label>
+                      <label id="yearReleased" style="margin-left: 30px; color: blue;">{{ obj.yearReleased }}</label>
+                    </div>
+               
+                    <div>
+                      <label for="numberPlayers">Single or Multiplayer:</label>
+                      <label id="numberPlayers" style="margin-left: 30px; color: blue;">{{ obj.numberPlayers }}</label>
+                    </div>
+
+                    <div>
+                        <label for="gamePlatform">Platform:</label>
+                        <label id="gamePlatform" style="margin-left: 30px; color: blue;">{{ obj.gamePlatform }}</label>
+                    </div>
+
+                    <div>
+                        <label for="rating">Rating:</label>
+                        <label id="rating" style="margin-left: 30px; color: blue;">{{ obj.rating }}</label>
+                    </div>
+    
+                </div>
+
+                <div id="button-container">
+
+                    <div style="float: left;">
+                        <button id="previous" data-ng-click="changeGame(-1)" data-ng-hide="hidePrev">&lt;&lt;&lt; Previous</button>
+                    </div>
+
+                    <div style="float: right;">
+                        <button id="next" data-ng-click="changeGame(1)" data-ng-hide="hideNext">Next &gt;&gt;&gt;</button>
+                    </div>
+
+                </div>
+
+            </section>
+            
+        </main>
+    </body>
+</html>
