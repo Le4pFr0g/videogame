@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
+//get rid of id, mongo will take care of it for you
+
 const DB_FILE = path.join(__dirname + "/files/data.txt");
 
 var services = function(app)
