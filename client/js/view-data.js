@@ -45,6 +45,7 @@ function loadData(gameData)
     for (var i = 0; i < gameData.length; i++)
     {
         var button = "<button class='delete-button' data-id='" + gameData[i].id + "'>DELETE</button";
+        // change gameData[i].id to gameData[i]._id
         htmlString += "<tr>";
 
             htmlString += "<td>" + gameData[i].gameName + "</td>";
