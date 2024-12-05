@@ -14,7 +14,7 @@ function retrieveData()
 
             if (data.msg = "SUCCESS")
             {
-                loadData(data.fileData);
+                loadData(data.games);
             }
             else
             {
@@ -27,6 +27,11 @@ function retrieveData()
         }
 
     });
+}
+
+function fakeLoad(gameData)
+{
+    console.log(gameData.length);
 }
 
 function loadData(gameData)
@@ -44,7 +49,7 @@ function loadData(gameData)
                     
     for (var i = 0; i < gameData.length; i++)
     {
-        var button = "<button class='delete-button' data-id='" + gameData[i].id + "'>DELETE</button";
+        var button = "<button class='delete-button' data-id='" + gameData[i]._id + "'>DELETE</button";
         // change gameData[i].id to gameData[i]._id
         htmlString += "<tr>";
 

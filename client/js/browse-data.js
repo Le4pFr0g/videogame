@@ -16,7 +16,7 @@ app.controller("browseDataCtrl", function($scope, $http)
         {
             if (response.data.msg === "SUCCESS")
             {
-                games = response.data.fileData;
+                games = response.data.games;
                 $scope.obj = games[activeGame];
                 $scope.showHide();
             }

@@ -1,104 +1,77 @@
+const {MongoClient, ObjectId } = require("mongodb");
+
 const fs = require("fs");
 const path = require("path");
-
-//get rid of id, mongo will take care of it for you
-
 const DB_FILE = path.join(__dirname + "/files/data.txt");
+
+const dbURL = process.env.DB_URI || "mongodb://127.0.0.1";
+
+const dbClient = new MongoClient(dbURL);
 
 var services = function(app)
 {
-    app.post("/write-record", function(req, res)
+    app.post("/write-record", async function(req, res)
     {
-        var id = "vgame" + Date.now();
-
         var gameData = 
         {
-            id: id,
             gameName: req.body.gameName,
             yearReleased: req.body.yearReleased,
             numberPlayers: req.body.numberPlayers,
             gamePlatform: req.body.gamePlatform,
             rating: req.body.rating
-        }
+        };
 
-        var vGameData = [];
+        var search = {gameName: req.body.gameName};
 
-        if (fs.existsSync(DB_FILE))
+        try
         {
-            //Read in current data
-            fs.readFile(DB_FILE, "utf8", function(err, data)
+            const conn = await dbClient.connect();
+            const db = conn.db("videogame");
+            const coll = db.collection("games");
+
+            //make sure the game doesn't already exist
+            //if it does, then close the connection and let the user know
+            const game = await coll.find(search).toArray();
+            if (game.length > 0)
             {
-                if (err)
-                {
-                    res.send(JSON.stringify({msg: err}));
-                }
-                else
-                {
-                    vGameData = JSON.parse(data);
+                await conn.close();
+                return res.send(JSON.stringify({msg: "Game Already Exists"}));
+            }
+            else
+            {
+                await coll.insertOne(gameData);
+                conn.close();
+                return res.send(JSON.stringify({msg: "SUCCESS"}));
+            }
 
-                    vGameData.push(gameData);
 
-                    
-                    fs.writeFile(DB_FILE, JSON.stringify(vGameData), function(err)
-                    {
-                        if (err)
-                        {
-                            res.send(JSON.stringify({msg: err}));
-                        }
-                        else
-                        {
-                            res.send(JSON.stringify({msg: "SUCCESS"}));
-                        }
-                    });
-                }
-            })
         }
-
-        else
+        catch (error)
         {
-            vGameData.push(gameData);
-            //console.log(DB_FILE);
-            //console.log(vGameData);
-
-            fs.writeFile(DB_FILE, JSON.stringify(vGameData), function(err)
-            {
-                if (err)
-                {
-                    res.send(JSON.stringify({msg: err}));
-                }
-                else
-                {
-                    res.send(JSON.stringify({msg: "SUCCESS"}));
-                }
-            });
-
+            await conn.close();
+            return res.send(JSON.stringify({msg: "Error " + error}));
         }
+        
 
     });
 
-    app.get("/get-records", function(req, res)
+    app.get("/get-records", async function(req, res)
     {
-        if (fs.existsSync(DB_FILE))
+        try
         {
-            fs.readFile(DB_FILE, "utf-8", function(err, data)
-            {
-                if (err)
-                {
-                    res.send(JSON.stringify({msg: err}));
-                }
-                else
-                {
-                    var gameData = JSON.parse(data);
+            var conn = await dbClient.connect();
+            var db = conn.db("videogame");
+            var coll = db.collection("games");
 
-                    res.send(JSON.stringify({msg: "SUCCESS", fileData: gameData}));
-                }
-            });
+            var games = await coll.find().toArray();
+
+            conn.close();
+            return res.send(JSON.stringify({msg: "SUCCESS", games: games}));
         }
-        else
+        catch (error)
         {
-            data = [];
-
-            res.send(JSON.stringify({msg: "SUCCESS", fileData: data}));
+            //await conn.close();
+            return res.send(JSON.stringify({msg: "Error " + error}));
         }
 
     });
@@ -117,11 +90,10 @@ var services = function(app)
                     res.send(JSON.stringify({msg: err}));
                 }
                 else
-                {
-                    
+                { 
                     var gameData = JSON.parse(data);
-                    console.log("Hopefully the data from the file: " + gameData[0].id);
-                    console.log("Hopefully the data from the button: " + req.params.id);
+                    console.log("data from the file: " + gameData[0].id);
+                    console.log("data from the button: " + req.params.id);
                     gameData = gameData.filter(game => game.id !== req.params.id)
                     console.log(gameData);
                     
