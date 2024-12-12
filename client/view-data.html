@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/client/css/menu-styles.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="/client/js/config.js" async></script>
     <script src="/client/js/view-data.js" async></script>
     
@@ -27,9 +28,12 @@
                 </div>
 
             </section>
-            <section class="main-body">
-                <!--What does the page do-->
-
+            <section class="main-body" data-ng-app="viewTableApp" data-ng-controller="viewTableCtrl">
+                
+                <label for="groupBy">Rating</label>
+                <select id="groupBy" dat-ng-model="selectedRating"
+                data-ng-options="rating.display for rating in ratings" data-ng-change="redrawTable()"></select>
+                
                 <div class="table-container">
                     <table id="dataTable">
                         <tr>
@@ -39,6 +43,16 @@
                             <th>Platform</th>
                             <th>Rating</th>
                             <th></th>
+                        </tr>
+                        <tr data-ng-repeat="obj in games">
+                            <td>{{obj.gameName}}</td>
+                            <td>{{obj.yearReleased}}</td>
+                            <td>{{obj.numberPlayers}}</td>
+                            <td>{{obj.gamePlatform}}</td>
+                            <td>{{obj.rating}}</td>
+                            <td>
+                                <button data-ng-click="deleteData(obj._id)">Delete</button>
+                            </td>
                         </tr>
                     </table>
                 </div>

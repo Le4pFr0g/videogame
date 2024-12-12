@@ -18,6 +18,13 @@ function submitData()
     var gamePlatform = $("#game_platform").val();
     var rating = $("#rating").val();
 
+    if (gameName === "" || yearReleased === "")
+    {
+        console.log("NOPE")
+        $("#results").text("Game Name and Year Released are required fields.");
+        return;
+    }
+
     var jsonObject = {gameName: gameName, yearReleased: yearReleased, numberPlayers: numberPlayers, gamePlatform: gamePlatform, rating: rating};
     $.ajax({
         url: videogameURL + "/write-record",
@@ -30,6 +37,13 @@ function submitData()
             if(data.msg = "SUCCESS")
             {
                 alert("Data Saved");
+                
+                $("#game_name").val("");
+                $("#year_released").val("");
+                $("#number_players").val("");
+                $("#game_platform").val("");
+                $("#rating").val("");
+
 
             }
             else

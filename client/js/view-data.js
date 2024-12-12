@@ -1,111 +1,117 @@
+var app = angular.module("viewTableApp", [])
 
-
-retrieveData();
-
-function retrieveData()
+app.controller("viewTableCtrl", function ($scope, $http)
 {
-    $.ajax(
-    {
-        url: videogameURL + "/get-records",
-        type: "get",
-        success: function(response)
-        {
-            var data = JSON.parse(response);
+    $scope.games = [];
 
-            if (data.msg = "SUCCESS")
+    $scope.get_records = function()
+    {
+        $http
+        ({
+            method: "get",
+            url: videogameURL + "/get-records"
+        }).then(function(response)
+        {
+            if (response.data.msg === "SUCCESS")
             {
-                loadData(data.games);
+                $scope.games = response.data.games;
+
+                $scope.ratings = getRatings(response.data.games);
+                $scope.selectedRating = $scope.ratings[0];
             }
             else
             {
-                console.log(data.msg);
+                console.log(response.data.msg)
             }
-        },
-        error: function(err)
+        }), function(error)
         {
-            console.log(err);
+            console.log(error)
+        }
+    };
+    $scope.get_records();
+
+    // $scope.redrawTable = function()
+    // {
+    //     var rating = $scope.selectedRating.value;
+
+    //     $http
+    //     ({
+    //         method: "get",
+    //         url: videogameURL + "/get-records"//,
+    //         // params: {type: type}
+
+    //     }).then(function(response)
+    //     {
+    //         //successfully connected to the server
+    //         if (response.data.msg === "SUCCESS")
+    //         {
+    //             $scope.games = response.data.games;
+
+    //             $scope.ratings = getRatings(response.data.games);
+    //             $scope.selectedRating = $scope.rating[0];
+    //         }
+    //         else
+    //         {
+    //             console.log(response.data.msg)
+    //         }
+
+    //     }), function(error)
+    //     {
+    //         //failed to connect to the server
+    //         console.log(error);
+    //     }
+    // };
+
+    $scope.deleteData = function(id)
+    {
+        $http
+        ({
+            method: "delete",
+            url: videogameURL + "/delete-record",
+            params: {id: id}
+        }).then(function(response)
+        {
+            if (response.data.msg === "SUCCESS")
+            {
+                $scope.get_records();
+            }
+            else
+            {
+                console.log(response.data.msg);
+            }
+
+        }), function(error)
+        {
+            console.log(error)   
+        }
+    };
+
+
+});
+
+function getRatings(TableData)
+{
+    var ratingExists;
+
+    ratingsArray = [{value: "", display: "ALL"}];
+
+    for (var i = 0; i < TableData.length; i++)
+    {
+        ratingExists = ratingsArray.find(function (element)
+        {
+            return element.value === TableData[i].rating
+        })
+
+        if (ratingExists)
+        {
+            continue;
+        }
+        else
+        {
+            ratingsArray.push({value: TableData[i].rating, display: TableData[i].rating.toUpperCase()})
         }
 
-    });
-}
-
-function fakeLoad(gameData)
-{
-    console.log(gameData.length);
-}
-
-function loadData(gameData)
-{
-    var htmlString = "";
-
-    htmlString += "<tr>" +
-                    "<th>Game Name</th>" +
-                    "<th>Year Released</th>" +
-                    "<th>Number of Players</th>" +
-                    "<th>Platform</th>" +
-                    "<th>Rating</th>" +
-                    "<th></th>" +
-                    "</tr>";
-                    
-    for (var i = 0; i < gameData.length; i++)
-    {
-        var button = "<button class='delete-button' data-id='" + gameData[i]._id + "'>DELETE</button";
-        // change gameData[i].id to gameData[i]._id
-        htmlString += "<tr>";
-
-            htmlString += "<td>" + gameData[i].gameName + "</td>";
-            htmlString += "<td>" + gameData[i].yearReleased + "</td>";
-            htmlString += "<td>" + gameData[i].numberPlayers + "</td>";
-            htmlString += "<td>" + gameData[i].gamePlatform + "</td>";
-            htmlString += "<td>" + gameData[i].rating + "</td>";
-            htmlString += "<td>"  + button + "</td>";
-
-        htmlString += "</tr>"
     }
 
-    //console.log(htmlString);
-
-    $("#dataTable").html(htmlString);
-    //activate buttons
-    activateDeleteButtons();
-}
-
-//buttons can apperently store attributes
-function activateDeleteButtons()
-{
-    $(".delete-button").click(function()
-    {
-        //create attribute
-        var deleteID = this.getAttribute("data-id");
-        // console.log("delete button pressed: " + deleteID);
-        deleteData(deleteID);
-    });
-}
-
-function deleteData(dataID)
-{
-    $.ajax(
-    {
-        url: videogameURL + "/delete-record/" + dataID,
-        type: "delete",
-        success: function(response)
-        {
-            var data = JSON.parse(response);
-
-            if (data.msg = "SUCCESS")
-            {
-                console.log("You are here");
-                retrieveData();
-            }
-            else
-            {
-                console.log(data.msg);
-            }
-        },
-        error: function(err)
-        {
-            console.log(err);
-        }
-
-    });
+    return ratingsArray;
 }

@@ -21,34 +21,22 @@ var services = function(app)
             rating: req.body.rating
         };
 
-        var search = {gameName: req.body.gameName};
-
         try
         {
             const conn = await dbClient.connect();
             const db = conn.db("videogame");
             const coll = db.collection("games");
 
-            //make sure the game doesn't already exist
-            //if it does, then close the connection and let the user know
-            const game = await coll.find(search).toArray();
-            if (game.length > 0)
-            {
-                await conn.close();
-                return res.send(JSON.stringify({msg: "Game Already Exists"}));
-            }
-            else
-            {
-                await coll.insertOne(gameData);
-                conn.close();
-                return res.send(JSON.stringify({msg: "SUCCESS"}));
-            }
+            await coll.insertOne(gameData);
+
+            conn.close();
+            return res.send(JSON.stringify({msg: "SUCCESS"}));
 
 
         }
         catch (error)
         {
-            await conn.close();
+            console.log(error);
             return res.send(JSON.stringify({msg: "Error " + error}));
         }
         
@@ -70,50 +58,32 @@ var services = function(app)
         }
         catch (error)
         {
-            //await conn.close();
+            console.log(error);
             return res.send(JSON.stringify({msg: "Error " + error}));
         }
 
     });
 
-    app.delete("/delete-record/:id", function(req, res)
+    app.delete("/delete-record", async function(req, res)
     {
-        console.log(req.params.id);
-        const id = parseInt(req.params.id, 10);
-        console.log(id);
-                if (fs.existsSync(DB_FILE))
+        //console.log(req.query.id);
+        try
         {
-            fs.readFile(DB_FILE, "utf-8", function(err, data)
-            {
-                if (err)
-                {
-                    res.send(JSON.stringify({msg: err}));
-                }
-                else
-                { 
-                    var gameData = JSON.parse(data);
-                    console.log("data from the file: " + gameData[0].id);
-                    console.log("data from the button: " + req.params.id);
-                    gameData = gameData.filter(game => game.id !== req.params.id)
-                    console.log(gameData);
-                    
-                    fs.writeFile(DB_FILE, JSON.stringify(gameData), function(err)
-                    {
-                        if (err)
-                        {
-                            res.send(JSON.stringify({msg: err}));
-                        }
+            const conn = await dbClient.connect();
+            const db = conn.db("videogame");
+            const coll = db.collection("games");
 
-                    });
+            var search = {_id: ObjectId.createFromHexString(req.query.id)};
+            await coll.deleteOne(search);
+            
+            conn.close();
+            return res.send(JSON.stringify({msg: "SUCCESS"}));
 
-                    res.send(JSON.stringify({msg: "SUCCESS"}));
-
-                }
-            });
         }
-        else
+        catch (error)
         {
-            res.send(JSON.stringify({msg: "File Not Found"}));
+            console.log(error);
+            return res.send(JSON.stringify({msg: "Error " + error}));
         }
 
     });
