@@ -14,13 +14,12 @@ function submitData()
 
     var gameName = $("#game_name").val();
     var yearReleased = $("#year_released").val();
-    var numberPlayers = $("#number_players").val();
-    var gamePlatform = $("#game_platform").val();
+    var numberPlayers = $("#number_players").val().toLowerCase();
+    var gamePlatform = $("#game_platform").val().toLowerCase();
     var rating = $("#rating").val();
 
     if (gameName === "" || yearReleased === "")
     {
-        console.log("NOPE")
         $("#results").text("Game Name and Year Released are required fields.");
         return;
     }

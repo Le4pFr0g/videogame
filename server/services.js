@@ -64,6 +64,28 @@ var services = function(app)
 
     });
 
+    app.get("/get-recordsByRating", async function(req, res)
+    {
+        var search = (req.query.rating === "") ? {}: {rating: req.query.rating};
+
+        try
+        {
+            var conn = await dbClient.connect();
+            var db = conn.db("videogame");
+            var coll = db.collection("games");
+
+            var games = await coll.find(search).toArray();
+
+            return res.send(JSON.stringify({msg: "SUCCESS", games: games}));
+        }
+        catch (error)
+        {
+            console.log(error);
+            return res.send(JSON.stringify({msg: "Error " + error}));
+        }
+
+    });
+
     app.delete("/delete-record", async function(req, res)
     {
         //console.log(req.query.id);
@@ -86,6 +108,41 @@ var services = function(app)
             return res.send(JSON.stringify({msg: "Error " + error}));
         }
 
+    });
+
+    app.put("/update-record", async function(req, res)
+    {
+        var updateData =
+        {
+            $set:
+            {
+                gameName: req.body.gameName,
+                yearReleased: req.body.yearReleased,
+                numberPlayers: req.body.numberPlayers,
+                gamePlatform: req.body.gamePlatform,
+                rating: req.body.rating
+            }
+        };
+        console.log(JSON.stringify(updateData));
+
+        try
+        {
+            const conn = await dbClient.connect();
+            const db = conn.db("videogame");
+            const coll = db.collection("games");
+
+            var search = {_id: ObjectId.createFromHexString(req.body.id)}
+            await coll.updateOne(search, updateData);
+
+            conn.close();
+            return res.send(JSON.stringify({msg: "SUCCESS"}))
+
+        }
+        catch (error)
+        {
+            console.log(error)
+            return res.send(JSON.stringify({msg: "Error " + error}))
+        }
     });
 }
 

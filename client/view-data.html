@@ -28,34 +28,97 @@
                 </div>
 
             </section>
-            <section class="main-body" data-ng-app="viewTableApp" data-ng-controller="viewTableCtrl">
+            <section class="main-body" data-ng-app="viewTableApp" data-ng-controller="viewTableCtrl" data-ng-init="hideForm=true">
                 
-                <label for="groupBy">Rating</label>
-                <select id="groupBy" dat-ng-model="selectedRating"
-                data-ng-options="rating.display for rating in ratings" data-ng-change="redrawTable()"></select>
-                
-                <div class="table-container">
-                    <table id="dataTable">
-                        <tr>
-                            <th>Game Name</th>
-                            <th>Year Released</th>
-                            <th>Number of Players</th>
-                            <th>Platform</th>
-                            <th>Rating</th>
-                            <th></th>
-                        </tr>
-                        <tr data-ng-repeat="obj in games">
-                            <td>{{obj.gameName}}</td>
-                            <td>{{obj.yearReleased}}</td>
-                            <td>{{obj.numberPlayers}}</td>
-                            <td>{{obj.gamePlatform}}</td>
-                            <td>{{obj.rating}}</td>
-                            <td>
-                                <button data-ng-click="deleteData(obj._id)">Delete</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                    <div id="selectBox" data-ng-hide="hideTable">
+                        <label style="color: white; padding-right: 10px; font-size: larger;" for="groupBy">Rating:</label>
+                        <select id="groupBy" data-ng-model="selectedRating"
+                        data-ng-options="rating.display for rating in ratings"
+                        data-ng-change="redrawTable()"></select>
+                    </div>
+                    
+                    
+                    <div class="table-container" data-ng-hide="hideTable">
+                        <table id="dataTable">
+                            <tr>
+                                <th>Game Name</th>
+                                <th>Year Released</th>
+                                <th>Number of Players</th>
+                                <th>Platform</th>
+                                <th>Rating</th>
+                                <th></th>
+                            </tr>
+                            <tr data-ng-repeat="obj in games">
+                                <td>{{obj.gameName}}</td>
+                                <td>{{obj.yearReleased}}</td>
+                                <td>{{obj.numberPlayers}}</td>
+                                <td>{{obj.gamePlatform}}</td>
+                                <td>{{obj.rating}}</td>
+                                <td>
+                                    <button data-ng-click="editGame($index)">Edit</button>
+                                </td>
+                                <td>
+                                    <button data-ng-click="deleteData(obj._id)">Delete</button>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <!-- form -->
+                    <div data-ng-hide="hideForm" id="updateForm">
+                        <!-- use this div for styles -->
+                        <div id="formStyles">
+                            <label data-ng-model="id" hidden></label>
+
+                            <div>
+                                <label for="gameName">Game Name: </label>
+                                <input type="text" id="gameName" data-ng-model="gameName">
+                            </div>
+        
+                            <div>
+                                <label for="yearReleased">Year Released: </label>
+                                <input type="text" id="yearReleased" style="width: 10ch;" data-ng-model="yearReleased">
+                            </div>
+        
+                            <div>
+                                <label for="numberPlayers">Single or Multiplayer: </label>
+                                <input type="text" id="numberPlayers" style="width: 10ch;" data-ng-model="numberPlayers">
+                            </div>
+        
+                            <div>
+                                <label for="gamePlatform">Platform: </label>
+                                <input type="text" id="gamePlatform" style="width: 10ch;" data-ng-model="gamePlatform">
+                            </div>
+        
+                            <div>
+                                <label for="rating">Rating: </label>
+                                <input type="text" id="rating" style="width: 10ch;" data-ng-model="rating">
+                            </div>
+
+                        </div> <!-- style div -->
+
+                        <!-- button styles -->
+                        <div id="updateButtons">
+
+                            <div style="float: left; clear: right;">
+                                <button id="submit" data-ng-click="updateGame()" >Update</button>
+                            </div>
+
+                            <div style="float: left; margin-left: 30px;">
+                                <button id="cancelButton" data-ng-click="cancelUpdate()" >Cancel</button>
+                            </div>
+
+
+                        </div>
+                        
+                        <!-- results -->
+                        <div>
+                            <div style="float: left; clear: left; margin-top: 10px; margin-bottom: 10px; font-size: 24px; color: green;">
+                                {{addResults}}
+                            </div>
+                        </div>
+                    </div> <!-- form div -->
                 
             </section>
 

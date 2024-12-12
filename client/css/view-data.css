@@ -12,6 +12,9 @@
 table
 {
     border: 5px solid white;
+    border-radius: 20px;
+    background-color: black;
+    width: 65%;
 }
 
 tr:not(:last-of-type) > td
@@ -49,3 +52,59 @@ th
     border-bottom: 2px solid white;
     /* border: 2px solid white; */
 }
+
+#selectBox
+{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: auto;
+    width: 50%;
+}
+
+#selectBox > *
+{
+    float: left;
+}
+
+#updateForm
+{
+    font-size: 30px;
+
+    text-align: center;
+    margin: 20px auto;
+    width: fit-content;
+    padding: 0px 20px;
+    overflow: auto;
+
+    background-color: black;
+    color: white;
+
+    border: 5px solid white;
+    border-radius: 20px;
+}
+#updateForm > * > *
+{
+    font-size: larger;
+
+    padding-top: 10px;
+    overflow: auto;
+}
+
+#updateButtons
+{
+    padding: 5px;
+    overflow: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    
+}
+
+input
+{
+    font-size: large;
+}
+
+

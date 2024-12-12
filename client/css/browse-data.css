@@ -7,13 +7,24 @@
     border: 1px solid black;
     border-radius: 20px;
 
-    background-color: aliceblue;
+    background-color: black;
+    color: white;
+    border: 5px solid white;
     font-size: 30px;
 
     width: fit-content;
     padding: 20px;
     margin-top: 50px;
+
+    overflow: auto;
+
     
+}
+
+#data-box > *
+{
+    float: left;
+    clear: left;
 }
 section
 {
@@ -27,7 +38,8 @@ section
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    margin-top: 10px;
+    width: 30%;
     overflow: auto;
 
     /* border: 2px solid rgb(30, 255, 0); */
