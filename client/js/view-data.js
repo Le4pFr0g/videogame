@@ -70,7 +70,7 @@ app.controller("viewTableCtrl", function ($scope, $http)
         {
             if (response.data.msg === "SUCCESS")
             {
-                $scope.get_records();
+                $scope.redrawTable();
             }
             else
             {
